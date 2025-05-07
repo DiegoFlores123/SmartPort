@@ -1,0 +1,355 @@
+:root {
+    --color-primario: #2563eb;
+    --color-secundario: #7c3aed;
+    --color-detalle: #00ff88;
+    --color-fondo: #0f172a;
+    --color-texto: #e2e8f0;
+}
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-image: 
+        radial-gradient(circle at 25% 60%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 75% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 45%);
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 12px var(--color-primario));
+}
+
+.logo {
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+    animation: float 6s ease-in-out infinite;
+}
+
+.logo:nth-child(2) {
+    animation-delay: 1s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+.container {
+    background: rgba(23, 42, 69, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(94, 234, 212, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 1200px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px rgba(94, 234, 212, 0.1);
+}
+
+.cronometro {
+    text-align: center;
+    font-size: 3rem;
+    margin: 1rem 0;
+    color: var(--color-detalle);
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.titulo {
+    text-align: center;
+    font-size: 2rem;
+    margin: 1rem 0;
+    color: var(--color-detalle);
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.indicadores {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.indicadores2 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.casos-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.caso {
+    background: rgba(23, 42, 69, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(94, 234, 212, 0.2);
+    border-radius: 20px;
+    padding: 1.5rem;
+}
+
+.indicador {
+    background: rgba(30, 58, 138, 0.3);
+    border: 1px solid rgba(94, 234, 212, 0.1);
+    padding: 1.5rem;
+    border-radius: 12px;
+    transition: all 0.3s;
+}
+
+.indicador:hover {
+    background: rgba(30, 58, 138, 0.5);
+    transform: scale(1.03);
+}
+
+.numero-formateado {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum";
+}
+
+.botones {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+}
+
+button {
+    background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4), 0 0 10px rgba(124, 58, 237, 0.3);
+}
+
+.btn-guardar {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    width: 100%;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6), 0 0 15px rgba(124, 58, 237, 0.5);
+}
+
+.contenedores-principales {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    width: 90%;
+    max-width: 1500px;
+    margin: 0 auto;
+}
+
+.registro-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.input-numero {
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid var(--color-detalle);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--color-texto);
+    font-size: 1rem;
+}
+
+.btn-registro {
+    background: linear-gradient(135deg, #3b82f6, #6366f1) !important;
+}
+
+.btn-enviar {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+}
+
+.btn-eliminar {
+    width: 40px;
+    text-align: center;
+}
+
+.lista-numeros {
+    background: rgba(30, 58, 138, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.lista-numeros ul {
+    list-style: none;
+    padding: 0;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.lista-numeros li {
+    padding: 0.5rem;
+    margin: 0.3rem 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contador-inicio {
+    text-align: center;
+    padding: 1rem;
+}
+
+#contadorEspera {
+    font-size: 2.5rem;
+    color: var(--color-detalle);
+    margin-top: 1rem;
+}
+
+.container.dashboard {
+    margin: 2rem auto; /* Centra horizontalmente */
+}
+
+.lista-envios {
+    background: rgba(30, 58, 138, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.cabecera-envios {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    font-weight: bold;
+    padding: 1rem;
+    border-bottom: 2px solid var(--color-detalle);
+}
+
+.cuerpo-envios {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.envio-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+}
+
+@media (max-width: 1200px) {
+    .contenedores-principales {
+        grid-template-columns: 1fr;
+        max-width: 95%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+        margin: 0.5rem;
+    }
+
+    .logo-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .logo {
+        height: 100px;
+    }
+
+    .casos-container {
+        grid-template-columns: 1fr;
+    }
+
+    .indicadores,
+    .indicadores2 {
+        grid-template-columns: 1fr;
+    }
+
+    .botones {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+        padding: 0.8rem 1rem;
+    }
+
+    .cabecera-envios,
+    .envio-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    .cronometro {
+        font-size: 2rem;
+    }
+
+    .titulo {
+        font-size: 1.5rem;
+    }
+    .input-numero {
+        width: 90%;
+    }
+
+    #contadorEspera {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .logo {
+        height: 80px;
+    }
+
+    .cronometro {
+        font-size: 1.5rem;
+    }
+
+    .indicador {
+        padding: 1rem;
+    }
+
+    .lista-envios {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container.dashboard {
+        padding: 1.5rem;
+        margin: 1rem auto; 
+        width: 80%;
+    }
+}
+
+@media (max-width: 480px) {
+    .container.dashboard {
+        padding: 1rem; 
+        margin: 0.5rem auto; 
+        width: 80%;
+    }
+}

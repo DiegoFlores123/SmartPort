@@ -1,0 +1,118 @@
+:root {
+    --color-primario: #2563eb;
+    --color-secundario: #7c3aed;
+    --color-detalle: #00ff88;
+    --color-fondo: #0f172a;
+    --color-texto: #e2e8f0;
+}
+
+body {
+    font-family: 'Roboto Mono', monospace;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+    background-image: 
+        radial-gradient(circle at 25% 60%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 75% 30%, rgba(124, 58, 237, 0.15) 0%, transparent 45%);
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 30px;
+    filter: drop-shadow(0 0 12px var(--color-primario));
+}
+
+.logo {
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(-2deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
+}
+
+.container {
+    background: rgba(23, 42, 69, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(94, 234, 212, 0.2);
+    border-radius: 20px;
+    padding: 2.5rem;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3), 0 0 30px rgba(94, 234, 212, 0.1);
+}
+
+.titulo {
+    text-align: center;
+    font-size: 2rem;
+    margin: 1rem 0 3rem 0;
+    color: var(--color-detalle);
+    text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+}
+
+.botones {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 2rem 0;
+}
+
+button {
+    background: linear-gradient(135deg, var(--color-primario), var(--color-secundario));
+    color: white;
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4), 0 0 10px rgba(124, 58, 237, 0.3);
+    font-size: 1.1rem;
+}
+
+button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6), 0 0 15px rgba(124, 58, 237, 0.5);
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1.5rem;
+    }
+    
+    .logo {
+        height: 100px;
+    }
+    
+    .titulo {
+        font-size: 1.5rem;
+        margin: 1rem 0 2rem 0;
+    }
+    
+    button {
+        width: 100%;
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        height: 80px;
+    }
+    
+    .titulo {
+        font-size: 1.3rem;
+    }
+}
