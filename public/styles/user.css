@@ -271,6 +271,18 @@ button:hover {
     overflow-y: auto;
 }
 
+.error-message {
+    display: none; /* Ocultar por defecto */
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
 @media (max-width: 1200px) {
     .contenedores-principales {
         grid-template-columns: 1fr;

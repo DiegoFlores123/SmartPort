@@ -4,24 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const listaNumeros = document.getElementById('listaNumeros');
     const listaEnvios = document.getElementById('listaEnvios');
 
-    // Mostrar notificación toast
-    function mostrarToast(mensaje) {
-        const toast = document.createElement('div');
-        toast.className = 'toast';
-        toast.textContent = mensaje;
-        document.body.appendChild(toast);
-        
-        setTimeout(() => {
-            toast.remove();
-        }, 1000);
-    }
-
     // Actualizar lista de números
     async function actualizarNumeros() {
         try {
             const response = await fetch('/numeros');
             const numeros = await response.json();
-            listaNumeros.innerHTML = numeros
+            listaNumeros.innerHTML = numeros.map(num =>
+                `<li>${num}</li>`
+            ).join('');
 
         } catch (error) {
             console.error('Error:', error);
@@ -31,9 +21,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Registrar nuevo número
     async function registrarNumero() {
         const numero = nuevoNumero.value.trim();
-        
-        if (!numero || !/^\d{10,15}$/.test(numero)) {
-            alert('Formato inválido. Ejemplo: 5212234567890');
+        const errorContainer = document.getElementById('errorContainer');
+
+        if (!numero || !/^\d{13}$/.test(numero)) {
+            errorContainer.textContent = 'Formato inválido. Ejemplo: 5212234567890';
+            errorContainer.style.display = 'block';
+            // Ocultar el mensaje de error después de 3 segundos
+            setTimeout(() => {
+                errorContainer.style.display = 'none';
+            }, 3000);
+
             return;
         }
 
@@ -46,12 +43,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 nuevoNumero.value = '';
-                mostrarToast('¡Número registrado exitosamente!');
                 actualizarNumeros();
             }
         } catch (error) {
             console.error('Error:', error);
-            mostrarToast('Error al registrar el número');
+            errorContainer.textContent = 'Ocurrió un error al agregar el número. Inténtalo de nuevo.';
+            errorContainer.style.display = 'block';
+                // Ocultar el mensaje de error después de 3 segundos
+            setTimeout(() => {
+                errorContainer.style.display = 'none';
+            }, 3000);
+
         }
     }
 

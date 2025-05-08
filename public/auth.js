@@ -37,21 +37,38 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Manejar el evento de envío del formulario de inicio de sesión
     document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-
+    
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-
-        if (username === ADMIN_USERNAME && await verifyHash(password, STORED_HASH)) {
-            // Crear sesión segura
-            const sessionToken = crypto.randomUUID();
-            sessionStorage.setItem(SESSION_KEY, JSON.stringify({
-                token: sessionToken,
-                exp: Date.now() + 100000 
-            }));
-            window.location.href = ADMIN_PAGE_ROUTE;
-        } else {
-            alert('Credenciales incorrectas');
-            document.getElementById('password').value = '';
+        const errorContainer = document.getElementById('errorContainer'); // Contenedor para el mensaje de error
+    
+        try {
+            if (username === ADMIN_USERNAME && await verifyHash(password, STORED_HASH)) {
+                // Crear sesión segura
+                const sessionToken = crypto.randomUUID();
+                sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+                    token: sessionToken,
+                    exp: Date.now() + 100000
+                }));
+                window.location.href = ADMIN_PAGE_ROUTE;
+            } else {
+                // Mostrar mensaje de error
+                errorContainer.textContent = 'Credenciales incorrectas. Por favor, inténtalo de nuevo.';
+                errorContainer.style.display = 'block';
+                // Ocultar el mensaje de error después de 3 segundos
+                setTimeout(() => {
+                    errorContainer.style.display = 'none';
+                }, 3000);
+                document.getElementById('password').value = '';
+            }
+        } catch (error) {
+            console.error('Error durante la autenticación:', error);
+            errorContainer.textContent = 'Ocurrió un error. Por favor, inténtalo de nuevo más tarde.';
+            errorContainer.style.display = 'block';
+            // Ocultar el mensaje de error después de 3 segundos
+            setTimeout(() => {
+                errorContainer.style.display = 'none';
+            }, 3000);
         }
     });
 

@@ -160,8 +160,16 @@ function inicializarDOM() {
 
     async function agregarNumero() {
         const numero = nuevoNumero.value.trim();
-        if (!numero || !/^\d{10,15}$/.test(numero)) {
-            alert('Formato inválido. Ejemplo: 5212234567890');
+        const errorContainer = document.getElementById('errorContainer');
+        
+        if (!numero || !/^\d{13}$/.test(numero)) {
+            errorContainer.textContent = 'Formato inválido. Ejemplo: 5212234567890';
+            errorContainer.style.display = 'block';
+            // Ocultar el mensaje de error después de 3 segundos
+            setTimeout(() => {
+                errorContainer.style.display = 'none';
+            }, 3000);
+
             return;
         }
 
@@ -178,6 +186,13 @@ function inicializarDOM() {
             }
         } catch (error) {
             console.error('Error:', error);
+            errorContainer.textContent = 'Ocurrió un error al agregar el número. Inténtalo de nuevo.';
+            errorContainer.style.display = 'block';
+                // Ocultar el mensaje de error después de 3 segundos
+            setTimeout(() => {
+                errorContainer.style.display = 'none';
+            }, 3000);
+
         }
     }
 
@@ -201,13 +216,29 @@ function inicializarDOM() {
     }
 
     async function iniciarEnvioProceso() {
+        const response = await fetch('/numeros');
+        const numeros = await response.json();
+    
+        if (numeros.length === 0) { // Verificar si no hay números registrados
+            const errorContainer = document.getElementById('errorContainer');
+            errorContainer.textContent = 'No hay números registrados. Por favor, agrega al menos un número antes de iniciar el envío.';
+            errorContainer.style.display = 'block';
+    
+            // Ocultar el mensaje de error después de 3 segundos
+            setTimeout(() => {
+                errorContainer.style.display = 'none';
+            }, 3000);
+    
+            return; // Salir de la función
+        }
+    
         iniciarEnvioBtn.disabled = true;
         let contador = 3;
-
+    
         const intervalo = setInterval(() => {
             contadorEspera.textContent = contador;
             contador--;
-
+    
             if (contador < 0) {
                 clearInterval(intervalo);
                 contadorEspera.textContent = '';

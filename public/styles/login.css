@@ -35,6 +35,18 @@ body {
     object-fit: contain;
 }
 
+.error-message {
+    display: none; /* Ocultar por defecto */
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #ff0000;
+    border: 1px solid #ff0000;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
 @keyframes float {
     0%, 100% { transform: translateY(0) rotate(-2deg); }
     50% { transform: translateY(-15px) rotate(2deg); }

@@ -79,16 +79,16 @@ async function enviarMensaje(numeroDestino, palabra) {
 app.post('/iniciar-dinamica', (req, res) => {
   mensajesEnviados = [];
   const numerosLimitados = NUMEROS_DESTINO.slice(0, 10);
-  const asignaciones = numerosLimitados
-    .map((numero, index) => ({
-      numero,
-      palabra: PALABRAS_ALFABETO[index]
-    }))
-    .sort((a, b) => a.palabra.localeCompare(b.palabra))
-    .map((asignacion, index) => ({
-      ...asignacion,
-      posicion: index + 1 // Agregar posición basada en el orden alfabético
-    }));
+
+  // Ordenar las palabras alfabéticamente antes de asignarlas
+  const palabrasOrdenadas = [...PALABRAS_ALFABETO].sort((a, b) => a.localeCompare(b));
+
+  // Asignar las palabras ordenadas a los números
+  const asignaciones = numerosLimitados.map((numero, index) => ({
+    numero,
+    palabra: palabrasOrdenadas[index], // Asignar la palabra correcta
+    posicion: index + 1 // La posición es el índice + 1
+  }));
 
   let indice = 0;
   const intervaloEnvio = setInterval(async () => {
