@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         actualizarDashboard();
         actualizarNumeros();
-    }, 1000);
+    }, 5000);
 
     const dashboardContainer = document.getElementById('dashboardContainer');
 
@@ -109,4 +109,54 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Sincronizar el estado del dashboard periódicamente
     setInterval(cargarEstadoDashboard, 5000);
+
+    const cronometroContainer = document.querySelector('.cronometro').parentElement;
+
+    // Cargar el estado del cronómetro desde el servidor
+    async function cargarEstadoCronometro() {
+        try {
+            const response = await fetch('/cronometro-visible');
+            const data = await response.json();
+            cronometroContainer.style.display = data.visible ? 'block' : 'none';
+        } catch (error) {
+            console.error('Error al cargar el estado del cronómetro:', error);
+        }
+    }
+
+    // Llamar a la función para cargar el estado inicial
+    cargarEstadoCronometro();
+
+    // Sincronizar el estado del cronómetro periódicamente
+    setInterval(cargarEstadoCronometro, 5000);
+    let intervaloUsuario;
+
+    // Función para sincronizar el cronómetro con el servidor
+    async function sincronizarCronometro() {
+        try {
+            const response = await fetch('/cronometro-estado');
+            const { segundos, minutos, horas, litros, costo, co2, corriendo } = await response.json();
+    
+            // Actualizar la interfaz del cronómetro
+            cronometroContainer.querySelector('.cronometro').textContent = 
+                `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+    
+            // Actualizar los valores de litros, costo y emisión de CO2
+            document.getElementById('litros').textContent = litros.toLocaleString('es-MX', { maximumFractionDigits: 2 });
+            document.getElementById('costo').textContent = costo.toLocaleString('es-MX', { maximumFractionDigits: 2 });
+            document.getElementById('co2').textContent = co2.toLocaleString('es-MX', { maximumFractionDigits: 2 });
+    
+            // Manejar el estado de ejecución del cronómetro
+            if (corriendo && !intervaloUsuario) {
+                intervaloUsuario = setInterval(() => sincronizarCronometro(), 1000);
+            } else if (!corriendo && intervaloUsuario) {
+                clearInterval(intervaloUsuario);
+                intervaloUsuario = null;
+            }
+        } catch (error) {
+            console.error('Error al sincronizar el cronómetro:', error);
+        }
+    }
+
+    // Llamar a la función para sincronizar el cronómetro periódicamente
+    setInterval(sincronizarCronometro, 1000);
 });

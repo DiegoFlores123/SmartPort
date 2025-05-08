@@ -7,7 +7,7 @@
 }
 
 body {
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Inter', sans-serif;
     background-color: var(--color-fondo);
     color: var(--color-texto);
     display: flex;
@@ -37,7 +37,7 @@ body {
 }
 
 p {
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--color-texto);
     text-align: center;
     margin: 0.5rem 0;
@@ -84,11 +84,17 @@ p {
     text-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
 }
 
+.instrucciones {
+    font-size: 1.3rem;
+}
+
 .indicadores {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     margin: 2rem 0;
+    font-size: 1.5rem;
+    text-align: center;
 }
 
 .indicadores2 {

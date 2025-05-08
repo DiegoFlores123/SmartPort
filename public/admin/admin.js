@@ -64,6 +64,35 @@ toggle.addEventListener('change', async () => {
 // Llamar a la función para cargar el estado inicial
 cargarEstadoToggle();
 
+const cronometroToggle = document.getElementById('cronometroToggle');
+
+// Cargar el estado inicial del cronómetro desde el servidor
+async function cargarEstadoCronometro() {
+    try {
+        const response = await fetch('/cronometro-visible');
+        const data = await response.json();
+        cronometroToggle.checked = data.visible;
+    } catch (error) {
+        console.error('Error al cargar el estado del cronómetro:', error);
+    }
+}
+
+// Guardar el estado del cronómetro en el servidor
+cronometroToggle.addEventListener('change', async () => {
+    try {
+        await fetch('/cronometro-visible', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ visible: cronometroToggle.checked })
+        });
+    } catch (error) {
+        console.error('Error al guardar el estado del cronómetro:', error);
+    }
+});
+
+// Llamar a la función para cargar el estado inicial
+cargarEstadoCronometro();
+
 // Lógica relacionada con el DOM
 function inicializarDOM() {
     const cronometro = document.querySelector('.cronometro');
@@ -125,15 +154,66 @@ function inicializarDOM() {
         litrosValor.textContent = formatearNumero(litros);
         costoValor.textContent = formatearNumero(costo);
         co2Valor.textContent = formatearNumero(co2);
+
+        // Actualizar el estado del cronómetro en el servidor
+        actualizarEstadoCronometroServidor();
     };
+
+    // Función para enviar el estado del cronómetro al servidor
+    async function actualizarEstadoCronometroServidor() {
+        try {
+            await fetch('/cronometro-estado', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    segundos,
+                    minutos,
+                    horas,
+                    litros: multiplicador * 500, // Calcular litros
+                    costo: multiplicador * 500 * 25, // Calcular costo
+                    co2: multiplicador * 500 * 2.6, // Calcular emisión de CO2
+                    corriendo: !!intervalo // Si hay un intervalo, el cronómetro está corriendo
+                })
+            });
+        } catch (error) {
+            console.error('Error al actualizar el estado del cronómetro en el servidor:', error);
+        }
+    }
+
+    // Función para sincronizar el cronómetro con el servidor al cargar la página
+    async function sincronizarCronometroDesdeServidor() {
+        try {
+            const response = await fetch('/cronometro-estado');
+            const { segundos: s, minutos: m, horas: h, corriendo } = await response.json();
+
+            // Actualizar las variables locales
+            segundos = s;
+            minutos = m;
+            horas = h;
+
+            // Actualizar la interfaz del cronómetro
+            cronometro.textContent = `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
+
+            // Si el cronómetro estaba corriendo, reiniciar el intervalo
+            if (corriendo) {
+                clearInterval(intervalo);
+                intervalo = setInterval(actualizarTiempo, 1000);
+            }
+        } catch (error) {
+            console.error('Error al sincronizar el cronómetro desde el servidor:', error);
+        }
+    }
 
     iniciarBtn.addEventListener('click', () => {
         clearInterval(intervalo);
         intervalo = setInterval(actualizarTiempo, 1000);
+        actualizarEstadoCronometroServidor();
     });
 
     pausarBtn.addEventListener('click', () => {
         clearInterval(intervalo);
+        intervalo = null;
+        actualizarEstadoCronometroServidor();
     });
 
     reiniciarBtn.addEventListener('click', () => {
@@ -144,6 +224,8 @@ function inicializarDOM() {
         litrosValor.textContent = '0';
         costoValor.textContent = '0';
         co2Valor.textContent = '0';
+        intervalo = null;
+        actualizarEstadoCronometroServidor();
     });
 
     document.getElementById('parte1').addEventListener('click', () => guardarResultado(1));
@@ -207,11 +289,10 @@ function inicializarDOM() {
             console.error('Error:', error);
             errorContainer.textContent = 'Ocurrió un error al agregar el número. Inténtalo de nuevo.';
             errorContainer.style.display = 'block';
-                // Ocultar el mensaje de error después de 3 segundos
+            // Ocultar el mensaje de error después de 3 segundos
             setTimeout(() => {
                 errorContainer.style.display = 'none';
             }, 3000);
-
         }
     }
 

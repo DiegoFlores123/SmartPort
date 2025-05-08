@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/styles/user.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="/assets/iconopagina.png" type="image/x-icon">
 </head>
 <body>
@@ -18,17 +18,45 @@
     </div>
 
     <div class="container">
-        <h4>Instrucciones de uso:</h4>
-        <h5>1. Escanea el código QR. Esto te llevará a un chat de WhatsApp. Ingresa al chat y envía el mensaje que se te ingresa en la caja de texto.</h5>
-        <h5>2. Una vez enviado el mensaje al chatbot, quedarás suscrito y podrás recibir tu palabra clave correspondiente con tu posicion exacta en la fila.</h5>
-        <h5>3. Para recibir tu palabra clave y posicion en la fila, ingresa tu número personal en el Registro de Participantes. Asegúrate de incluir el código de país (México: 52), luego el número 1 por ser un sistema internacional, y finalmente tu número telefónico (ejemplo: 5213124567890).</h5>
-        <h6>Para cancelar tu suscripción al chatbot, envía el mensaje "stop" al mismo chat.</h6>
-        <img src="/assets/QR.png" class="qr-code"></i>
-        <p>Si no puedes escanear el código QR, haz clic en el siguiente enlace: 
-            <a href="http://wa.me/+14155238886?text=join%20general-sight" target="_blank">Presione aqui</a>
-        </p>
+        <div class="instrucciones">
+            <h4>Instrucciones de uso</h4>
+        
+        <div class="step">
+            <h5>1. Escanea el código QR:</h5>
+            <p>Este te dirigirá a un chat de WhatsApp. Al ingresar, envía el mensaje <strong>predefinido</strong> que aparece en la caja de texto.</p>
+        </div>
+
+        <div class="step">
+            <h5>2. Confirma tu suscripción:</h5>
+            <p>Al enviar el mensaje al chatbot, quedarás suscrito y podras recibir tu <strong>palabra clave</strong> junto con tu <strong>posición exacta</strong>.</p>
+        </div>
+
+        <div class="step">
+            <h5>3. Registra tu número telefónico:</h5>
+            <p>Para obtener tu palabra clave y posición, ingresa tu número en el <strong>Registro de Participantes</strong> con el siguiente formato:</p>
+            <ul>
+                <li><strong>Código de país</strong> (ej. México: <em>52</em>)</li>
+                <li><strong>Número 1</strong> (debido al sistema internacional)</li>
+                <li><strong>Tu número telefónico completo</strong> (ejemplo: <em>5213124567890</em>)</li>
+            </ul>
+        </div>
+
+        <div class="notice">
+            <p><strong>Para dejar de recibir mensajes, envía la palabra <strong>«stop»</strong> al mismo chat.</p>
+        </div>
+
+        <img src="/assets/QR.png" class="qr-code" alt="Código QR para acceso al chatbot">
+
+        <div class="alternative-link">
+            <p>¿Problemas para escanear el QR?<br>
+            Haz clic en este enlace:<br>
+            <a href="http://wa.me/+14155238886?text=join%20general-sight" target="_blank" rel="noopener">Acceder al chatbot</a></p>
+        </div>
+        </div>
     </div>
+
     <br>
+    
     <div class="container">
         <h1 class="titulo">Registro de Participantes</h1>
         <div class="registro-container">
@@ -46,6 +74,27 @@
             </div>
         </div>
     </div>
+
+    <br>
+
+        <div class="container">
+            <div class="cronometro">00:00:00</div>
+            
+            <div class="indicadores">
+                <div class="indicador">
+                    <span>Litros</span>
+                    <div id="litros">0</div>
+                </div>
+                <div class="indicador">
+                    <span>Costo (MXN)</span>
+                    <div id="costo">0</div>
+                </div>
+                <div class="indicador">
+                    <span>Emision CO2 (Kg)</span>
+                    <div id="co2">0</div>
+                </div>
+            </div>
+        </div>
 
     <div class="container dashboard" id="dashboardContainer" style="display: none;">
         <h1 class="titulo">Dashboard de Envíos</h1>

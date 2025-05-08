@@ -70,6 +70,42 @@ app.post('/dashboard-visible', (req, res) => {
   res.status(200).json({ success: true });
 });
 
+let cronometroVisible = false; // Estado inicial del cronómetro
+
+// Endpoint para obtener el estado del cronómetro
+app.get('/cronometro-visible', (req, res) => {
+  res.json({ visible: cronometroVisible });
+});
+
+// Endpoint para actualizar el estado del cronómetro
+app.post('/cronometro-visible', (req, res) => {
+  const { visible } = req.body;
+  cronometroVisible = visible;
+  res.status(200).json({ success: true });
+});
+
+let cronometroEstado = {
+  segundos: 0,
+  minutos: 0,
+  horas: 0,
+  litros: 0,
+  costo: 0,
+  co2: 0,
+  corriendo: false // Indica si el cronómetro está en ejecución
+};
+
+// Endpoint para obtener el estado del cronómetro
+app.get('/cronometro-estado', (req, res) => {
+  res.json(cronometroEstado);
+});
+
+// Endpoint para actualizar el estado del cronómetro
+app.post('/cronometro-estado', (req, res) => {
+  const { segundos, minutos, horas, litros, costo, co2, corriendo } = req.body;
+  cronometroEstado = { segundos, minutos, horas, litros, costo, co2, corriendo };
+  res.status(200).json({ success: true });
+});
+
 async function enviarMensaje(numeroDestino, palabra, posicion) {
   try {
     const message = await client.messages.create({
