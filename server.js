@@ -70,10 +70,10 @@ app.post('/dashboard-visible', (req, res) => {
   res.status(200).json({ success: true });
 });
 
-async function enviarMensaje(numeroDestino, palabra) {
+async function enviarMensaje(numeroDestino, palabra, posicion) {
   try {
     const message = await client.messages.create({
-      body: `Tu palabra clave: ${palabra}`,
+      body: `Tu palabra clave: ${palabra} y tu posición es: ${posicion}`,
       from: process.env.TWILIO_WHATSAPP_FROM,
       to: `whatsapp:+${numeroDestino}`
     });  
@@ -100,19 +100,22 @@ app.post('/iniciar-dinamica', (req, res) => {
   // Asignar las palabras ordenadas a los números
   const asignaciones = numerosLimitados.map((numero, index) => ({
     numero,
-    palabra: palabrasOrdenadas[index], // Asignar la palabra correcta
-    posicion: index + 1 // La posición es el índice + 1
+    palabra: palabrasOrdenadas[index] // Asignar la palabra correcta
   }));
 
   let indice = 0;
+  let posicion = 1; // Iniciar la posición en 1
+
   const intervaloEnvio = setInterval(async () => {
     if (indice < asignaciones.length) {
-      await enviarMensaje(asignaciones[indice].numero, asignaciones[indice].palabra);
+      await enviarMensaje(asignaciones[indice].numero, asignaciones[indice].palabra, posicion);
       mensajesEnviados.push({
         ...asignaciones[indice],
+        posicion, // Agregar la posición al mensaje enviado
         timestamp: Date.now()
       });
       indice++;
+      posicion++; // Incrementar la posición para el siguiente mensaje
     } else {
       clearInterval(intervaloEnvio);
     }
