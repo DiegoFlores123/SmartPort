@@ -19,17 +19,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const ADMIN_USERNAME = ENV_VARS.ADMIN_USERNAME;
     const ADMIN_PAGE_ROUTE = ENV_VARS.ADMIN_PAGE_ROUTE;
 
-    // Función para generar un hash
-    async function generateHash(password) {
-        const salt = crypto.getRandomValues(new Uint8Array(16));
-        const encoder = new TextEncoder();
-        const data = encoder.encode(password + salt);
-
-        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-        const hashArray = Array.from(new Uint8Array(hashBuffer));
-        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-    }
-
     // Función para verificar un hash
     async function verifyHash(password, storedHash) {
         const [storedHashHex, storedSaltHex] = storedHash.split(':');

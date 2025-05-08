@@ -34,11 +34,26 @@ body {
     height: 120px;
     width: auto;
     object-fit: contain;
-    animation: float 6s ease-in-out infinite;
 }
 
-.logo:nth-child(2) {
-    animation-delay: 1s;
+.toggle-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    gap: 10px;
+    font-size: 1rem;
+    color: var(--color-texto);
+}
+
+.toggle-container label {
+    font-weight: bold;
+}
+
+.toggle-container input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
 }
 
 @keyframes float {
@@ -226,32 +241,37 @@ button:hover {
     margin: 2rem auto; /* Centra horizontalmente */
 }
 
+.cabecera-envios {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* Ahora hay 4 columnas */
+    font-weight: bold;
+    padding: 1rem;
+    border-bottom: 2px solid var(--color-detalle);
+    text-align: center; /* Centrar el texto */
+}
+
+/* Ajustar los elementos del dashboard para incluir la nueva columna */
+.envio-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; /* Ahora hay 4 columnas */
+    padding: 1rem;
+    margin: 0.5rem 0;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    text-align: center; /* Centrar el texto */
+}
+
+/* Ajustar el contenedor del dashboard */
 .lista-envios {
     background: rgba(30, 58, 138, 0.2);
     border-radius: 12px;
     padding: 1rem;
-}
-
-.cabecera-envios {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    font-weight: bold;
-    padding: 1rem;
-    border-bottom: 2px solid var(--color-detalle);
+    overflow-x: auto; /* Asegurar que no se rompa en pantallas pequeñas */
 }
 
 .cuerpo-envios {
     max-height: 300px;
     overflow-y: auto;
-}
-
-.envio-item {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    padding: 1rem;
-    margin: 0.5rem 0;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
 }
 
 @media (max-width: 1200px) {
@@ -296,7 +316,7 @@ button:hover {
 
     .cabecera-envios,
     .envio-item {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr; /* Reducir a 2 columnas si es necesario */
         gap: 0.5rem;
     }
 
@@ -335,6 +355,12 @@ button:hover {
 
     .lista-envios {
         font-size: 0.9rem;
+    }
+
+    .cabecera-envios,
+    .envio-item {
+        grid-template-columns: 1fr; /* Una sola columna en pantallas muy pequeñas */
+        text-align: left; /* Alinear a la izquierda para mejor legibilidad */
     }
 }
 

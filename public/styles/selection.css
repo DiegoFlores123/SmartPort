@@ -34,7 +34,6 @@ body {
     height: 120px;
     width: auto;
     object-fit: contain;
-    animation: float 6s ease-in-out infinite;
 }
 
 @keyframes float {

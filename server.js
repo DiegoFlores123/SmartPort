@@ -20,7 +20,10 @@ const client = twilio(
 );
 
 let NUMEROS_DESTINO = [];
-const PALABRAS_ALFABETO = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel', 'India', 'Juliett'];
+const PALABRAS_ALFABETO = [
+  'Quartz', 'Quasar', 'Nimbus', 'Nimble', 'Zephyr', 
+  'Zodiac', 'Fjord', 'Flicker', 'Glyph', 'Glitch'
+];
 let mensajesEnviados = [];
 
 app.post('/agregar-numero', (req, res) => {
@@ -81,7 +84,11 @@ app.post('/iniciar-dinamica', (req, res) => {
       numero,
       palabra: PALABRAS_ALFABETO[index]
     }))
-    .sort((a, b) => a.palabra.localeCompare(b.palabra));
+    .sort((a, b) => a.palabra.localeCompare(b.palabra))
+    .map((asignacion, index) => ({
+      ...asignacion,
+      posicion: index + 1 // Agregar posición basada en el orden alfabético
+    }));
 
   let indice = 0;
   const intervaloEnvio = setInterval(async () => {

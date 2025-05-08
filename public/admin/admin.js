@@ -35,6 +35,16 @@ async function inicializarPagina() {
     inicializarDOM();
 }
 
+const toggle = document.getElementById('dashboardToggle');
+
+// Cargar el estado inicial del toggle
+toggle.checked = JSON.parse(localStorage.getItem('dashboardVisible')) || false;
+
+// Guardar el estado del toggle en localStorage
+toggle.addEventListener('change', () => {
+    localStorage.setItem('dashboardVisible', toggle.checked);
+});
+
 // Lógica relacionada con el DOM
 function inicializarDOM() {
     const cronometro = document.querySelector('.cronometro');
@@ -226,10 +236,11 @@ function inicializarDOM() {
 
     function actualizarDashboard(mensajes) {
         const ultimosMensajes = mensajes.slice(-10);
-
+    
         listaEnvios.innerHTML = ultimosMensajes.reverse().map(msg => `
             <div class="envio-item">
                 <span>${msg.numero}</span>
+                <span>${msg.posicion}</span> <!-- Mostrar posición -->
                 <span>${msg.palabra}</span>
                 <span>${new Date(msg.timestamp).toLocaleTimeString()}</span>
             </div>

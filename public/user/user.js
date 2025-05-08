@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
             listaEnvios.innerHTML = mensajes.reverse().map(msg => `
                 <div class="envio-item">
                     <span>${msg.numero}</span>
+                    <span>${msg.posicion}</span> <!-- Mostrar posición -->
                     <span>${msg.palabra}</span>
                     <span>${new Date(msg.timestamp).toLocaleTimeString()}</span>
                 </div>
@@ -87,4 +88,8 @@ document.addEventListener('DOMContentLoaded', () => {
         actualizarDashboard();
         actualizarNumeros();
     }, 1000);
+
+    const dashboardVisible = JSON.parse(localStorage.getItem('dashboardVisible')) || false;
+    const dashboardContainer = document.getElementById('dashboardContainer');
+    dashboardContainer.style.display = dashboardVisible ? 'block' : 'none';
 });
