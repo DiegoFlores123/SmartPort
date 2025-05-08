@@ -56,6 +56,20 @@ app.get('/env', (req, res) => {
   });
 });
 
+let dashboardVisible = false; // Estado inicial del toggle
+
+// Endpoint para obtener el estado del toggle
+app.get('/dashboard-visible', (req, res) => {
+  res.json({ visible: dashboardVisible });
+});
+
+// Endpoint para actualizar el estado del toggle
+app.post('/dashboard-visible', (req, res) => {
+  const { visible } = req.body;
+  dashboardVisible = visible;
+  res.status(200).json({ success: true });
+});
+
 async function enviarMensaje(numeroDestino, palabra) {
   try {
     const message = await client.messages.create({

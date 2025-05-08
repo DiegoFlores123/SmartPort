@@ -91,7 +91,22 @@ document.addEventListener('DOMContentLoaded', () => {
         actualizarNumeros();
     }, 1000);
 
-    const dashboardVisible = JSON.parse(localStorage.getItem('dashboardVisible')) || false;
     const dashboardContainer = document.getElementById('dashboardContainer');
-    dashboardContainer.style.display = dashboardVisible ? 'block' : 'none';
+
+    // Cargar el estado del dashboard desde el servidor
+    async function cargarEstadoDashboard() {
+        try {
+            const response = await fetch('/dashboard-visible');
+            const data = await response.json();
+            dashboardContainer.style.display = data.visible ? 'block' : 'none';
+        } catch (error) {
+            console.error('Error al cargar el estado del dashboard:', error);
+        }
+    }
+
+    // Llamar a la función para cargar el estado inicial
+    cargarEstadoDashboard();
+
+    // Sincronizar el estado del dashboard periódicamente
+    setInterval(cargarEstadoDashboard, 5000);
 });

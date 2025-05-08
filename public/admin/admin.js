@@ -37,13 +37,32 @@ async function inicializarPagina() {
 
 const toggle = document.getElementById('dashboardToggle');
 
-// Cargar el estado inicial del toggle
-toggle.checked = JSON.parse(localStorage.getItem('dashboardVisible')) || false;
+// Cargar el estado inicial del toggle desde el servidor
+async function cargarEstadoToggle() {
+    try {
+        const response = await fetch('/dashboard-visible');
+        const data = await response.json();
+        toggle.checked = data.visible;
+    } catch (error) {
+        console.error('Error al cargar el estado del toggle:', error);
+    }
+}
 
-// Guardar el estado del toggle en localStorage
-toggle.addEventListener('change', () => {
-    localStorage.setItem('dashboardVisible', toggle.checked);
+// Guardar el estado del toggle en el servidor
+toggle.addEventListener('change', async () => {
+    try {
+        await fetch('/dashboard-visible', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ visible: toggle.checked })
+        });
+    } catch (error) {
+        console.error('Error al guardar el estado del toggle:', error);
+    }
 });
+
+// Llamar a la función para cargar el estado inicial
+cargarEstadoToggle();
 
 // Lógica relacionada con el DOM
 function inicializarDOM() {
