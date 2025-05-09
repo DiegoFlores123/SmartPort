@@ -24,6 +24,30 @@ function verificarSesion() {
     return true;
 }
 
+let caso1Tiempo, caso1Litros, caso1Costo, caso1CO2;
+let caso2Tiempo, caso2Litros, caso2Costo, caso2CO2;
+
+async function cargarResultadosGuardados() {
+    try {
+        const response = await fetch('/resultados-casos');
+        const data = await response.json();
+
+        // Actualizar la interfaz con los datos del servidor
+        caso1Tiempo.textContent = data.caso1.tiempo;
+        caso1Litros.textContent = data.caso1.litros;
+        caso1Costo.textContent = `$${data.caso1.costo}`;
+        caso1CO2.textContent = data.caso1.co2;
+
+        caso2Tiempo.textContent = data.caso2.tiempo;
+        caso2Litros.textContent = data.caso2.litros;
+        caso2Costo.textContent = `$${data.caso2.costo}`;
+        caso2CO2.textContent = data.caso2.co2;
+    } catch (error) {
+        console.error('Error al cargar los resultados guardados:', error);
+    }
+}
+
+
 // Inicializar la página después de verificar la sesión
 async function inicializarPagina() {
     await loadEnvVars();
@@ -33,6 +57,7 @@ async function inicializarPagina() {
     document.body.style.display = 'block';
 
     inicializarDOM();
+    await cargarResultadosGuardados(); // Cargar los resultados guardados
 }
 
 const toggle = document.getElementById('dashboardToggle');
@@ -104,15 +129,15 @@ function inicializarDOM() {
     const costoValor = document.getElementById('costo');
     const co2Valor = document.getElementById('co2');
 
-    const caso1Tiempo = document.getElementById('cronometrores1');
-    const caso1Litros = document.getElementById('litros1');
-    const caso1Costo = document.getElementById('costo1');
-    const caso1CO2 = document.getElementById('co21');
+    caso1Tiempo = document.getElementById('cronometrores1');
+    caso1Litros = document.getElementById('litros1');
+    caso1Costo = document.getElementById('costo1');
+    caso1CO2 = document.getElementById('co21');
 
-    const caso2Tiempo = document.getElementById('cronometrores2');
-    const caso2Litros = document.getElementById('litros2');
-    const caso2Costo = document.getElementById('costo2');
-    const caso2CO2 = document.getElementById('co22');
+    caso2Tiempo = document.getElementById('cronometrores2');
+    caso2Litros = document.getElementById('litros2');
+    caso2Costo = document.getElementById('costo2');
+    caso2CO2 = document.getElementById('co22');
 
     const nuevoNumero = document.getElementById('nuevoNumero');
     const registrarBtn = document.getElementById('registrarNumero');
@@ -207,12 +232,13 @@ function inicializarDOM() {
     document.getElementById('parte1').addEventListener('click', () => guardarResultado(1));
     document.getElementById('parte2').addEventListener('click', () => guardarResultado(2));
 
-    function guardarResultado(caso) {
-        const tiempo = cronometro.textContent;
-        const litros = litrosValor.textContent;
-        const costo = costoValor.textContent;
-        const co2 = co2Valor.textContent;
+    async function guardarResultado(caso) {
+    const tiempo = cronometro.textContent;
+    const litros = litrosValor.textContent;
+    const costo = costoValor.textContent;
+    const co2 = co2Valor.textContent;
 
+        // Actualizar la interfaz
         if (caso === 1) {
             caso1Tiempo.textContent = tiempo;
             caso1Litros.textContent = litros;
@@ -223,6 +249,17 @@ function inicializarDOM() {
             caso2Litros.textContent = litros;
             caso2Costo.textContent = `$${costo}`;
             caso2CO2.textContent = co2;
+        }
+
+        // Enviar los datos al servidor
+        try {
+            await fetch('/guardar-resultado', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ caso, tiempo, litros, costo, co2 })
+            });
+        } catch (error) {
+            console.error('Error al guardar el resultado en el servidor:', error);
         }
     }
 

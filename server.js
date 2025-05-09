@@ -107,6 +107,41 @@ app.post('/cronometro-estado', (req, res) => {
   res.status(200).json({ success: true });
 });
 
+let resultadosCasos = {
+  caso1: {
+    tiempo: "00:00:00",
+    litros: "0",
+    costo: "0",
+    co2: "0"
+  },
+  caso2: {
+    tiempo: "00:00:00",
+    litros: "0",
+    costo: "0",
+    co2: "0"
+  }
+};
+
+// Endpoint para obtener los resultados de los casos
+app.get('/resultados-casos', (req, res) => {
+  res.json(resultadosCasos);
+});
+
+// Endpoint para guardar los resultados de un caso
+app.post('/guardar-resultado', (req, res) => {
+  const { caso, tiempo, litros, costo, co2 } = req.body;
+
+  if (caso === 1) {
+    resultadosCasos.caso1 = { tiempo, litros, costo, co2 };
+  } else if (caso === 2) {
+    resultadosCasos.caso2 = { tiempo, litros, costo, co2 };
+  } else {
+    return res.status(400).json({ error: "Caso inválido" });
+  }
+
+  res.status(200).json({ success: true });
+});
+
 async function enviarMensaje(numeroDestino, palabra, posicion) {
   try {
     const message = await client.messages.create({
