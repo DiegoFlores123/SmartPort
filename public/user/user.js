@@ -85,11 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar datos iniciales
     actualizarNumeros();
     
-    // Sincronización en tiempo real
-    setInterval(() => {
-        actualizarDashboard();
-        actualizarNumeros();
-    }, 5000);
+    // Sincronización en tiempo real del dashboard
+    setInterval(actualizarDashboard, 3000);
+
+    // Sincronización en tiempo real de números
+    setInterval(actualizarNumeros, 5000);
 
     const dashboardContainer = document.getElementById('dashboardContainer');
 

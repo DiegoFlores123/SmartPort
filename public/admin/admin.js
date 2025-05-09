@@ -180,30 +180,6 @@ function inicializarDOM() {
         }
     }
 
-    // Función para sincronizar el cronómetro con el servidor al cargar la página
-    async function sincronizarCronometroDesdeServidor() {
-        try {
-            const response = await fetch('/cronometro-estado');
-            const { segundos: s, minutos: m, horas: h, corriendo } = await response.json();
-
-            // Actualizar las variables locales
-            segundos = s;
-            minutos = m;
-            horas = h;
-
-            // Actualizar la interfaz del cronómetro
-            cronometro.textContent = `${String(horas).padStart(2, '0')}:${String(minutos).padStart(2, '0')}:${String(segundos).padStart(2, '0')}`;
-
-            // Si el cronómetro estaba corriendo, reiniciar el intervalo
-            if (corriendo) {
-                clearInterval(intervalo);
-                intervalo = setInterval(actualizarTiempo, 1000);
-            }
-        } catch (error) {
-            console.error('Error al sincronizar el cronómetro desde el servidor:', error);
-        }
-    }
-
     iniciarBtn.addEventListener('click', () => {
         clearInterval(intervalo);
         intervalo = setInterval(actualizarTiempo, 1000);
@@ -314,6 +290,8 @@ function inicializarDOM() {
             console.error('Error:', error);
         }
     }
+
+    setInterval(cargarNumerosRegistrados, 3000);
 
     async function iniciarEnvioProceso() {
         const response = await fetch('/numeros');

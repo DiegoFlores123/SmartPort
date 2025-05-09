@@ -119,6 +119,7 @@ body {
     border: 1px solid rgba(94, 234, 212, 0.2);
     border-radius: 20px;
     padding: 1.5rem;
+    text-align: center;
 }
 
 .indicador {
