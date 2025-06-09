@@ -381,7 +381,7 @@ function inicializarDOM() {
     }
 
     function actualizarDashboard(mensajes) {
-        const ultimosMensajes = mensajes.slice(-10);
+        const ultimosMensajes = mensajes;
     
         listaEnvios.innerHTML = ultimosMensajes.reverse().map(msg => `
             <div class="envio-item">

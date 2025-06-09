@@ -22,8 +22,9 @@ const client = twilio(
 
 let NUMEROS_DESTINO = [];
 const PALABRAS_ALFABETO = [
-  'Quartz', 'Quasar', 'Nimbus', 'Nimble', 'Zephyr', 
-  'Zodiac', 'Fjord', 'Flicker', 'Glyph', 'Glitch'
+  'Pseudoarte', 'Pseudonimo', 'Psicoactivo', 'Psicoanalista', 'Psicobiologia', 
+  'Psicoeducativo', 'Psicoestimulativo', 'Psicofarmaco', 'Psicofisico', 'Psicogenico',
+  'Psicopedagogico', 'Psicosocial', 'Psicosomatico', 'Psicoterapia', 'Psicotico'
 ];
 let mensajesEnviados = [];
 
@@ -41,7 +42,7 @@ app.delete('/eliminar-numero/:numero', (req, res) => {
 });
 
 app.get('/mensajes-enviados', (req, res) => {
-  res.json(mensajesEnviados.slice(-10));
+  res.json(mensajesEnviados);
 });
 
 app.get('/numeros', (req, res) => {
@@ -164,7 +165,7 @@ async function enviarMensaje(numeroDestino, palabra, posicion) {
   
 app.post('/iniciar-dinamica', (req, res) => {
   mensajesEnviados = [];
-  const numerosLimitados = NUMEROS_DESTINO.slice(0, 10);
+  const numerosLimitados = NUMEROS_DESTINO;
 
   // Ordenar las palabras alfabéticamente antes de asignarlas
   const palabrasOrdenadas = [...PALABRAS_ALFABETO].sort((a, b) => a.localeCompare(b));
@@ -193,7 +194,7 @@ app.post('/iniciar-dinamica', (req, res) => {
     }
   }, 3000);
 
-  setTimeout(() => clearInterval(intervaloEnvio), 31000);
+  setTimeout(() => clearInterval(intervaloEnvio), 46000);
   res.status(200).json({ success: true });
 });
 
